@@ -1,0 +1,15 @@
+{
+  "name": "myfirstapp",
+  "version": "1.0.0",
+  "description": "나의 첫 노드 프로젝트",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "강창훈",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "moment": "^2.29.4"
+  }
+}
