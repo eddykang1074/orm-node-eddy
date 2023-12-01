@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+    <body>
+        <h1>배열과 객체의 비구조화 할당에 대해 배워봐요..</h1>
+
+
+        <script>
+
+            //비구조화 할당 신규 문법이 아닌
+            //전통적인 구조화된(일반적인) 배열과 객체에서의 값을 추출하는 방법
+
+            //문자열 배열을 정의하고 값을 할당합니다. 
+            const books = ['React','Vue','Angular','Svelt','Jquery'];
+
+            //구조화된 배열값을 추출해 변수에 할당하는 전통적인 방식 
+            var book1 = books[0];
+            var book2 = books[1];
+            var book3 = books[2];
+
+            console.log("배열에서 추출한 값을 출력해보자",book1,book2,book3);
+
+
+            //비구조화 할당방식으로 상수를 선언하고 값을 할당해보자.
+            const [book4,book5] = ['JAVA','C#','Python','PHP','JavaScript'];
+
+            console.log("비구조화 할당방식의 상수출력1:",book4,book5);
+
+            //비구조화 할당하고 나머지 값들은 배열로 받기 
+            const [book6, ...extraBooks] = ['자바','닷넷','파이썬','PHP','노드'];
+            console.log("비구조화 할당방식의 상수출력2:",book6,extraBooks);
+
+            //비구조화 할당 예시
+            const [book7,book8,book9,book10,book11,book12='데이터베이스'] = ['자바','닷넷','파이썬','PHP','노드'];
+            console.log("비구조화 할당방식의 상수출력3:",book7,book8,book9,book10,book11,book12);
+
+
+
+            //객체의 비구조화 할당에 대해 알아봅시다.
+            const techTrend ={
+                front:'React.js',
+                backend:'Node.js',
+                server:'Linux',
+                rdbms:'MySQL=MariaDB',
+                noSQL:'MongoDB',
+                infra:'AWS'
+            };
+
+            //구조화된(전통적인) 방식으로 객체의 속성 값을 추출해보자.
+            var frontTech = techTrend.front; 
+            var backendTech = techTrend.backend; 
+            var serverTech = techTrend.server; 
+
+            console.log("구조화된 방식으로 추출한 객체의 속성변수값:",frontTech,backendTech,serverTech);
+
+
+            //비구조화된 방식으로 객체의 속성값을 추출해보자.
+            const {front,backend,server,getAuthor} = {
+                front:'React.js',
+                backend:'Node.js',
+                server:'Linux',
+                rdbms:'MySQL=MariaDB',
+                noSQL:'MongoDB',
+                infra:'AWS',
+                getAuthor:function(){
+                    return "강창훈";
+                }
+            };
+
+            console.log("비구조화 할당 방식으로 값을 추출한 결과:",front,backend,server,getAuthor());
+
+            //비구조화 할당 문법을 사용하는 이유!!!
+            //보다 적은 코딩량으로 보다 빨리 코딩을 할수 있는 방식을 제공해서
+            //집에 빨리가서 맥주에 치킨 먹자...
+
+
+
+
+        </script>
+    </body>
+</html>
