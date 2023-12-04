@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>샘플 테스트 웹페이지</title>
+
+        <!-- html태그 스타일 처리 영역 -->
+        <!-- <style>
+            input {
+                width:300px;
+                height:20px;
+                background-color: gray;
+            }
+        </style> -->
+
+        <link href="./common/sample.css" rel="stylesheet" />
+
+
+    </head>
+
+    <body>
+        <h1>회원가입</h1>
+        <img src="./images/user.jpg"/>
+
+        <form>
+            아이디:<input type="text" id="email" /> <br/>
+            암호:<input type="password" id="password" /> <br/>
+            이름:<input type="text"  /> <br/>
+            <button onclick="fnValidation();">저장</button>
+        </form>
+
+
+        <!-- 클라이언트 자바스크립트 구현 영역 -->
+        <script src="./common/sample.js"></script>
+
+
+        <script>
+
+            //사용자 입력값 유효성 체크 함수 
+            // function fnValidation(){
+
+            //     if(document.getElementById("email").value == ""){
+            //         alert("메일주소 아이디를 입력해주세요.");
+            //         document.getElementById("email").focus();
+            //         return false;
+            //     }
+
+            //     if(document.getElementById("password").value == ""){
+            //         alert("사용자 암호를 입력해주세요.");
+            //         document.getElementById("password").focus();
+            //         return false;
+            //     }
+
+            // }
+
+
+        </script>
+    </body>
+</html>

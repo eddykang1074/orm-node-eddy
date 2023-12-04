@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+//개발용 Node Express 프로젝트의 최초 시작 모듈로
+//주료 개발환경에서의 노드백엔드앱을 서비스하기 위한 로컬 웹서버환경을 구성해주고
+//노드백엔드 앱 서비스 서버 환경을 제공한다.
+
+
+//웹서버를 통해 서비스할 실제 노드백엔드앱파일인 (app.js) 모듈을 참조합니다.
+var app = require('../app');
+
+//각종 백엔드 디버깅 환경 제공을 위한 debug 객체 참조 
+var debug = require('debug')('express-nodesample1:server');
+
+//노드프레임워크내에서 기본제공되는 http웹서버 패키지를 참조합니다. 
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+//웹서버 객체를 생성합니다.
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
