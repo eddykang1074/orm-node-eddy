@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>신규회원가입</title>
+</head>
+
+<body>
+    <h1>신규회원가입</h1>
+
+    <form action="/member/entry" method="post" onsubmit="return fnFormCheck();">
+
+        <!-- input요소의 name속성에 지정된 값은 백엔드 라우팅메소드에서
+        req.body.UI요소의 네임값으로 사용되어 사용자 입력한 해당 HTML요소의 값을 백엔드에서
+        추출할수 있게 도와줍니다. -->
+        메일주소: <input type="text" name="email" id="email" value="" />  <br/>
+
+
+        암호 : <input type="password" name="password" id="password"/><br/>
+
+        이름 : <input type="text" name="name" id="name"/><br/>
+
+        전화번호 : <input type="text" name="telephone" id="telephone"/><br/>
+
+        <!-- 회원가입 submit 버튼이 클릭되면 form태그 이벤트중에 onsubmit()이벤트가 발생한다. -->
+        <input type="submit" value="회원가입" />
+    </form>
+
+
+    <script>
+
+        //폼 사용자 입력값 유효성 검사 체크함수 
+        function fnFormCheck(){
+
+            if(document.getElementById("email").value == ""){
+                alert("메일주소를 입력해주세요.");
+                document.getElementById("email").focus();
+                return false;
+            }
+
+            if(document.getElementById("password").value == ""){
+                alert("암호를 입력해주세요.");
+                document.getElementById("password").focus();
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+
+</body>
+</html>
