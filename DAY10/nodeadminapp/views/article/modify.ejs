@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>게시글 정보 확인 및 수정/삭제</title>
+    </head>
+
+    <body>
+
+        <h1>기존 게시글 확인 및 수정 삭제  </h1>
+
+        <form action="/articles/modify/<%=article.articleIdx%>" method="post">
+            제목:<input type="text" name="title" value="<%=article.title%>" /> <br/>
+            내용:<textarea name="contents" rows="20" cols="10" style="width:90%"><%=article.contents%>
+            </textarea> <br/>
+            등록자:<input type="text" name="register" value="<%=article.registMemberId%>" /> <br/>
+            <input type="submit" value="수정" />
+            <a href="/articles/delete?aidx=<%=article.articleIdx%>">삭제</a>
+            <a href="/articles">게시글 목록 이동</a>
+        </form>
+
+
+    </body>
+</html>
