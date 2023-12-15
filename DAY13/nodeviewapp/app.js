@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 
 
 var articleRouter = require('./routes/article');
+var articleAPIRouter = require('./routes/articleAPI');
 
 
 
@@ -30,7 +31,7 @@ app.use('/users', usersRouter);
 
 
 app.use('/article', articleRouter);
-
+app.use('/api/article', articleAPIRouter);
 
 
 

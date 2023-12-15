@@ -117,25 +117,25 @@
                                 <div class="form-group">
                                     <label class="control-label" for="OrderNo">게시판</label>
                                     <select name="boardTypeCode" id="boardTypeCode" class="form-control">
-                                        <option value="0">전체</option>
-                                        <option value="1">공지게시판</option>
-                                        <option value="2">기술블로깅</option>
+                                        <option value="0" <% if( searchOption.boardTypeCode == "0"){ %> selected <% } %> >전체</option>
+                                        <option value="1" <% if( searchOption.boardTypeCode == "1"){ %> selected <% } %>>공지게시판</option>
+                                        <option value="2" <% if( searchOption.boardTypeCode == "2"){ %> selected <% } %>>기술블로깅</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label" for="OrderName">제목</label>
-                                    <input type="text" name="title" class="form-control">
+                                    <input type="text" name="title" value="<%=searchOption.title%>" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label" for="MobileNo">게시여부</label>
                                     <select name="isDisplayCode" class="form-control">
-                                        <option value="9">전체</option>
-                                        <option value="1">게시함</option>
-                                        <option value="0">게시안함</option>
+                                        <option value="9" <% if( searchOption.isDisplayCode == "9"){ %> selected <% } %> >전체</option>
+                                        <option value="1" <% if( searchOption.isDisplayCode == "1"){ %> selected <% } %> >게시함</option>
+                                        <option value="0" <% if( searchOption.isDisplayCode == "0"){ %> selected <% } %> >게시안함</option>
                                     </select>
                                 </div>
                             </div>
@@ -250,18 +250,14 @@
         //조회폼 입력 유효성 검사 
         $("#searchForm").submit(function(){
 
-            if($("#boardTypeCode").val() == "0"){
-                alert("게시판 유형을 선택해주세요.");
-                $("#boardTypeCode").focus();
-                return false;
-            }
+            // if($("#boardTypeCode").val() == "0"){
+            //     alert("게시판 유형을 선택해주세요.");
+            //     $("#boardTypeCode").focus();
+            //     return false;
+            // }
 
             return true;
         });
-
- 
-
-
 
 
    </script>
