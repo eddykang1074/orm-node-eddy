@@ -105,7 +105,7 @@
             </div>
 
             <!--우측 콘텐츠 영역 -->
-            <form action="/article/create" id="articleForm" method="post">
+            <form  id="articleForm">
                 <div class="wrapper wrapper-content">
                     <div class="ibox-content m-b-sm border-bottom">
 
@@ -275,11 +275,39 @@
 
             //최종 웹브라우저에서 서버로 데이터를 전송하기전에 클라이언트 디버깅을 걸어보자..
             //debugger;
+            //Client AJAX기술로 RESTful 단일게시글 등록 API를 호출해 신규 게시글을 등록처리한다.
 
-            return true;
+            //STEP1: REST API로 전달할 신규 게시글 JSON데이터 생성하기
+            //UI요소(HTML 입력/선택요소)에서 일일이 사용자가 입력/선택한 값을 추출해서 서버로 보낼 JSON데이터 소스에 바인딩(데이터선택처리)처리한다.
+            //이렇게 UI요소에서 일일이 데이터를 추출해서서 데이터소스에 바인딩 처리하여 개발하는 UI패턴을 MVP(Model/View/Presenter)패턴이라한다.
+            
+            //MVP패턴에서의 Model인 article모델의 구조를 정의한다.
+            //MVP패턴에서 Presenter기능을 이용해 특정 UI요소의 VALUE값을 일일이 하나씩 하나씩 수동으로 추출해서 데이터소스(클라이언트모델)에
+            //특정 속성에 데이터를 넣어주어(데이터바인딩) 최종 백엔드 RESTful로 데이터를 전송한다.   
+            var article = {
+                "boardTypeCode":$("#boardTypeCode").val(),
+                "title":$("#title").val(),
+                "contents":$("#contents").val(),
+                "articleTypeCode":$("#articleTypeCode").val(),
+                "isDisplayCode":$("#isDisplayCode").val(),
+                "register":$("#register").val()
+            };
+
+            //클라이언트(프론트엔드)에서 준비된 데이터소스를 서버의 RESTful API로 전송해 등록처리한다. 
+            //jQuery AJAX post메소드를 통해 서버로 데이터 전송처리 
+            $.post('/api/article/create',article).done(function(data){
+                console.log("백엔드 처리결과 값 확인하기: ",data);
+
+                if(data.code === 200){
+                    alert("등록완료");
+                    location.href="/frontend/list.html";
+                }else{
+                    alert("등록에러 발생...관리자에게 문의하세용...");
+                }
+
+            });
+            return false;
         });
-
-
 
 
 
