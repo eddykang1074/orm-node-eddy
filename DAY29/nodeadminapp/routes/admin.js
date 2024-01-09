@@ -25,7 +25,7 @@ router.get('/list', async(req, res, next)=> {
     //
     //var admins = await db.Admin.findAll();
     var sqlQuery =`SELECT 
-    company_code,admin_id,admin_password,admin_name,
+    admin_member_id,company_code,admin_id,admin_password,admin_name,
     CONVERT(AES_DECRYPT(UNHEX(email),'${process.env.MYSQL_AES_KEY}')USING utf8) as email,
     CONVERT(AES_DECRYPT(UNHEX(telephone),'${process.env.MYSQL_AES_KEY}')USING utf8) as telephone,
     dept_name,used_yn_code,reg_date,reg_member_id 
