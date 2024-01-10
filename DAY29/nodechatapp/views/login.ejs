@@ -9,7 +9,9 @@
 				<!-- 우측 고유 콘텐츠 영역  -->
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 					<div class="login-wrapper">
-						<form action="index.html">
+
+
+						<form action="/login" method="post" id="loginForm">
 							<div class="login-screen">
 								<div class="login-body">
 									<a href="index.html" class="login-logo">
@@ -17,11 +19,11 @@
 									</a>
 									<h6>Welcome back,<br>Please login to your account.</h6>
 									<div class="field-wrapper">
-										<input type="email" autofocus>
+										<input type="email" name="email" id="email" autofocus>
 										<div class="field-placeholder">Email ID</div>
 									</div>
 									<div class="field-wrapper mb-3">
-										<input type="password">
+										<input type="password" name="password" id="password">
 										<div class="field-placeholder">Password</div>
 									</div>
 									<div class="actions">

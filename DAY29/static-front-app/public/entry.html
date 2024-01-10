@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Meta -->
+		<meta name="description" content="Quick Chat App">
+		<meta name="author" content="ParkerThemes">
+		<link rel="shortcut icon" href="img/fav.png" />
+
+		<!-- Title -->
+		<title>Quick Chat App</title>
+
+
+		<!-- *************
+			************ Common Css Files *************
+		************ -->
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		
+		<!-- Main css -->
+		<link rel="stylesheet" href="css/main.css">
+
+
+		<!-- *************
+			************ Vendor Css Files *************
+		************ -->
+
+	</head>
+	<body class="authentication">
+
+		<!-- *************
+			************ Login container start *************
+		************* -->
+		<div class="login-container">
+			
+			<!-- Row start -->
+			<div class="row no-gutters h-100">
+				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+					<div class="login-about">
+						<div class="slogan">
+							<span>Design</span>
+							<span>Made</span>
+							<span>Simple.</span>
+						</div>
+						<div class="about-desc">
+							Quick Chat is an intelligent and communications tool, built for teams. It provides an integrated platform that makes team communication easy and efficient.
+						</div>
+						<a href="index.html" class="know-more">Know More <img src="img/right-arrow.svg"></a>
+
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+					<div class="login-wrapper">
+
+
+						<form id="entryForm">
+							<div class="login-screen">
+								<div class="login-body">
+									<a href="index.html" class="login-logo">
+										<img src="img/logo.svg" alt="Quick Chat">
+									</a>
+									<h6>Welcome to Quick Chat App,<br>Create your account.</h6>
+									<div class="field-wrapper">
+										<input type="email" id="email" autofocus>
+										<div class="field-placeholder">Email ID</div>
+									</div>
+									<div class="field-wrapper">
+										<input type="password" id="password">
+										<div class="field-placeholder">Password</div>
+									</div>
+
+
+									<div class="field-wrapper mb-3">
+										<input type="password" id="passwordconfirm">
+										<div class="field-placeholder">Confirm Password</div>
+									</div>
+
+									<div class="field-wrapper mb-3">
+										<input type="text" id="name">
+										<div class="field-placeholder">Name</div>
+									</div>
+
+									<div class="field-wrapper mb-3">
+										<input type="text" id="telephone">
+										<div class="field-placeholder">Telephone</div>
+									</div>
+
+
+									<div class="actions">
+										<button type="submit" class="btn btn-primary ml-auto">Sign Up</button>
+									</div>
+								</div>
+								<div class="login-footer">
+									<span class="additional-link">Have an account? <a href="login.html" class="btn btn-secondary">Login</a></span>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- Row end -->
+
+		</div>
+		<!-- *************
+			************ Login container end *************
+		************* -->
+
+		<script src="/js/jquery.min.js"></script>
+
+
+
+		<script>
+
+			$("#entryForm").submit(function(){
+
+				if($("#email").val() == ""){
+					alert("메일주소를 입력해주세요.");
+					$("#email").focus();
+					return false;
+				}
+
+				//AJAX로 사용자 회원가입 기능 구현-백엔드 RESTful과 연동처리함
+				var member ={
+					"email":$("#email").val(),
+					"password":$("#password").val(),
+					"name":$("#name").val(),
+					"telephone":$("#telephone").val()
+				};
+
+				$.post('/api/member/entry',member).done(function(result){
+					console.log("백엔드에서 전달된 회원가입결과값: ",result);
+
+					if(result.code == 200){
+						alert("회원등록완료");
+						location.href="/login.html";
+					}else if(result.code == 400){
+						alert("회원가입 실패하였습니다.");
+					}else if(result.code == 500 && result.msg == "ExistDoubleEmail"){
+						alert("동일한 메일주소가 존재합니다.");
+					}else{
+						alert("회원가입 실패하였습니다.");
+					}
+				});
+
+				return false;
+			});
+
+
+		</script>
+
+	</body>
+</html>
