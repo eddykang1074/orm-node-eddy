@@ -4,6 +4,31 @@
 var express = require('express');
 var router = express.Router();
 
+var moment = require('moment');
+
+//multer멀터 업로드 패키지 참조하기
+var multer = require('multer');
+
+//S3전용 업로드 객체 참조하기
+var {upload} = require('../common/aws_s3');
+
+
+//multer 파일저장위치 지정
+var storage  = multer.diskStorage({ 
+    destination(req, file, cb) {
+      cb(null, 'public/upload/');
+    },
+    filename(req, file, cb) {
+      cb(null, `${moment(Date.now()).format('YYYYMMDDHHMMss')}_${file.originalname}`);
+    },
+});
+
+
+//multer 일반 업로드처리 객체 생성
+var simpleUpload = multer({ storage: storage });
+
+
+
 var db = require('../models/index');
 var Op = db.Sequelize.Op;
 
@@ -102,7 +127,8 @@ router.get('/create',async(req,res)=>{
 
 
 //신규 게시글 사용자 등록정보 처리 요청 및 응답 라우팅메소드
-router.post('/create',async(req,res)=>{
+//upload.single('html태그내 file 태그의 name명')
+router.post('/create',simpleUpload.single('file'),async(req,res)=>{
 
     //step1: 사용자가 입력한 게시글 등록 데이터 추출
     var boardTypeCode = req.body.boardTypeCode;
@@ -111,6 +137,86 @@ router.post('/create',async(req,res)=>{
     var articleTypeCode = req.body.articleTypeCode;
     var isDisplayCode = req.body.isDisplayCode;
     var register = req.body.register;
+
+
+    //step2:추출된 사용자 입력데이터를 단일 게시글 json데이터로 구성해서
+    //DB article테이블에 영구적으로 저장처리한다.
+    //저장처리후 article테이블에 저장된 데이터 반환됩니다.
+
+    //등록할 게시글 데이터 
+    //**중요: 테이블에 저장/수정할 데이터소스는 반드시 데이터모델의 속성명을 이용해야한다.
+    //**조심하세요:  article 모델 컬럼에 값이 반드시 들어와야하는값(IS NOT NULL)은 값을 전달해야해요.
+    var article ={
+        board_type_code:boardTypeCode,
+        title,
+        contents,
+        view_count:0,
+        ip_address:"111.222.222.222",
+        article_type_code:articleTypeCode,
+        is_display_code:isDisplayCode,
+        reg_member_id:1,
+        reg_date:Date.now()
+    };
+
+    //게시글 정보를 article테이블에 저장하고 저장된 값을 다시 반환받는다.
+    var registedArticle = await db.Article.create(article);
+    //var registedArticle = await db.Article.create(article);
+
+
+    //step1-2:업로드 파일정보 체크하기 
+    const uploadFile = req.file;
+
+    //업로드된 파일이 존재하는경우만 데이터 처리 
+    if(uploadFile != undefined){
+        var filePath ="/upload/"+uploadFile.filename;//서버에 실제 업로드된 물리적 파일명-도메인주소가 생략된 파일링크주소  
+        var fileName = uploadFile.filename; //서버에 저장된 실제 물리파일명(파일명/확장자포함)
+        var fileOrignalName = uploadFile.originalname;//클라이언트에서 선택한 오리지널파일명명
+        var fileSize = uploadFile.size; //파일 크기(KB)
+        var fileType=uploadFile.mimetype; //파일포맷
+    
+    
+        var file ={
+            article_id:registedArticle.article_id,
+            file_name:fileOrignalName,
+            file_size:fileSize,
+            file_path:filePath,
+            file_type:fileType,
+            reg_date:Date.now(),
+            reg_member_id:1
+        }
+    
+        await db.ArticleFile.create(file);
+    }
+
+
+    //step3:등록처리후 게시글 목록 웹페이지로 이동처리 
+    res.redirect('/article/list');
+});
+
+
+
+//신규 게시글 사용자 등록정보 처리 요청 및 응답 라우팅메소드:S3에 파일업로드
+//upload.getUpload('upload/').fields([{ name: 'client파일태그명', maxCount: 3 }])
+router.post('/creates3',upload.getUpload('/').fields([{ name: 'file', maxCount: 1 }]),async(req,res)=>{
+
+    //step1: 사용자가 입력한 게시글 등록 데이터 추출
+    var boardTypeCode = req.body.boardTypeCode;
+    var title = req.body.title;
+    var contents = req.body.contents;
+    var articleTypeCode = req.body.articleTypeCode;
+    var isDisplayCode = req.body.isDisplayCode;
+    var register = req.body.register;
+
+
+    //step1-2:업로드 파일정보 체크하기 
+    const uploadFile = req.files.file[0];
+    var filePath ="/upload/"+uploadFile.filename;//서버에 실제 업로드된 물리적 파일명-도메인주소가 생략된 파일링크주소  
+    var fileName = uploadFile.filename; //서버에 저장된 실제 물리파일명(파일명/확장자포함)
+    var fileOrignalName = uploadFile.originalname;//클라이언트에서 선택한 오리지널파일명명
+    var fileSize = uploadFile.size; //파일 크기(KB)
+    var fileType=uploadFile.mimetype; //파일포맷
+
+
 
     //step2:추출된 사용자 입력데이터를 단일 게시글 json데이터로 구성해서
     //DB article테이블에 영구적으로 저장처리한다.

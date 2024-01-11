@@ -21,7 +21,7 @@
             </div>
 
             <!--우측 콘텐츠 영역 -->
-            <form action="/article/create" id="articleForm" method="post">
+            <form action="/article/create" id="articleForm" method="post" enctype="multipart/form-data">
                 <div class="wrapper wrapper-content">
                     <div class="ibox-content m-b-sm border-bottom">
 
@@ -56,7 +56,12 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="control-label">글내용</label>
-                                    <textarea class="form-control" name="contents" id="contents" rows="10" cols="5"></textarea>
+
+                                    <!-- SUMMERNOTE WebEditor 표시영역  -->
+                                    <div class="summernote"></div>
+                                    
+                                    <!-- <textarea class="form-control" name="contents" id="contents" rows="10" cols="5"></textarea> -->
+
                                 </div>
                             </div>
                         </div>
@@ -126,7 +131,60 @@
             $("#boardTypeCode").focus();
             //alert("게시글 등록페이지가 렌더링 완료되었습니다.");
             console.log("게시글 등록 웹페이지가 웹브라우저에 모두 렌더링 되었습니다. ");
+
+            //SummerNote WebEditor 설정하기
+            //$('.summernote').summernote();
+
+            $('.summernote').summernote({
+                height: 300,  //editor의 디폴트 높이
+                minHeight: 250, //최소 높이
+                maxHeight: 500, //최대 높이
+                focus: false,
+                lang: 'en-US', 
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['fontsize','bold', 'underline', 'clear']],
+                    ['height', ['height']],
+                    ['color', ['color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture','link','video']],
+                    ['view', ['codeview', 'help']]
+                ],
+                callbacks: {
+                onImageUpload: function(files) {
+                    for (var i = 0; i < files.length; i++) {
+                        sendFile(files[i], this);
+                    }
+                }
+                }   
+
+            });
+
+
         });
+
+        //프론트엔드에서 백엔드 업로드API를 호출해서 파일업로드처리
+        function sendFile(file,editor){
+            var data = new FormData();
+            data.append("file",file);
+
+            $.ajax({
+                data:data,
+                type:"POST",
+                url:"/api/article/upload",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success:function(result){
+                    console.log("파일업로드 처리결과:",result);
+                    $(editor).summernote('insertImage', result.data.filePath);
+                }
+            });
+        }
+
+
+
 
 
         //form태그내 사용자가 입력한 데이터 유효성검사(Validation Check)함수 구현

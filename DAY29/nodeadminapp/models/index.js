@@ -26,8 +26,17 @@ db.Sequelize = Sequelize; //Sequelize팩키지에서 제공하는 각종 데이�
 //회원모델 모듈파일 참조하고 db속성정의하기
 db.Article = require('./article.js')(sequelize,Sequelize);
 
+//게시글 파일정보관리 모델 
+db.ArticleFile = require('./articlefile.js')(sequelize,Sequelize);
+
+
 //관리자계정 정보 모델 추가 
 db.Admin = require('./admin.js')(sequelize,Sequelize);
+
+
+//테블간의 ORM기반 관계설정하기 영역 : 1:N관계를 ORM으로 설정하기 
+db.Article.hasMany(db.ArticleFile,{foreignKey: 'article_id', sourceKey:'article_id'});
+db.ArticleFile.belongsTo(db.Article,{foreignKey:'article_id',targetKey:'article_id'});
 
 
 //db객체 외부로 노출하기 
