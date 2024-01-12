@@ -67,10 +67,14 @@
 							<img src="img/groups.svg" alt="Groups">
 							<span class="nav-link-text">Groups</span>
 						</a>
+
+						<!-- 개인환경설정하기 아이콘  -->
 						<a class="nav-link" id="settings-tab" data-toggle="pill" href="#tab-settings" role="tab" aria-controls="tab-settings" aria-selected="false">
 							<img src="img/settings.svg" alt="Settings">
 							<span class="nav-link-text">Settings</span>
 						</a>
+
+
 						<a href="login.html" class="nav-link mt-auto">
 							<img src="img/logout.svg" alt="Logout">
 						</a>
@@ -1266,7 +1270,7 @@
 													<div class="upload-profile">
 
 														<div class="upload-profile-image">
-															<img src="img/user2.png" alt="Profile Image">
+															<img  id="profile_img" alt="Profile Image">
 														</div>
 														<div class="field-wrapper">
 															<div class="custom-file">
@@ -1278,17 +1282,17 @@
 													</div>
 
 													<div class="field-wrapper">
-														<input type="text" value="Jeivxezer Lopexz" />
+														<input type="text" id="member_name" value="" />
 														<div class="field-placeholder">Full Name</div>
 													</div>
 
 													<div class="field-wrapper">
-														<input type="email" value="jeivxezer-lopexz@email.com" />
+														<input type="email" id="email" value="" />
 														<div class="field-placeholder">Email</div>
 													</div>
 
 													<div class="field-wrapper m-0">
-														<input type="text" value="0 0000 00000" />
+														<input type="text" id="telephone" value="" />
 														<div class="field-placeholder">Contact</div>
 													</div>
 												</div>
@@ -1934,6 +1938,57 @@
 
 		<!-- Main Js Required -->
 		<script src="js/main.js"></script>
+
+
+		<script>
+
+			//환경설정 아이콘 클릭시 백엔드에서 프로필정보 조회 바인딩하기
+			$("#settings-tab").click(function(){
+
+				//웹브라우저 로컬스토리지에 저장된 사용자인증 JWT토큰정보 추출하기
+				var loginUserToken = localStorage.getItem("userauthtoken");
+
+				$.ajax({
+					type:'GET',
+					url:'/api/member/profile',
+					headers:{
+						Authorization:`Bearer ${loginUserToken}`
+					},
+					dataType:"json",
+					success:function(result){
+						console.log("현재 사용자 정보 호출결과: ",result);
+
+						if(result.code == 200){
+							$("#email").val(result.data.email);
+							$("#member_name").val(result.data.name);
+							$("#telephone").val(result.data.telephone);
+
+							$("#profile_img").attr("src",result.data.profile_img_path);
+		
+						}else{
+							if(result.code == 400){
+								alert(result.code);
+							}
+						}
+					},
+					error:function(err){
+						console.log("백엔드 API호출 에러발생:",err);
+					}
+				});
+
+			});
+
+
+
+
+
+
+
+		</script>
+
+
+
+
 
 	</body>
 </html>

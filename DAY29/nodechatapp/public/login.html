@@ -123,7 +123,16 @@
 					console.log("회원로그인 결과값 확인:",result);
 
 					if(result.code == 200){
-						location.href= "/";
+						//백엔드에서 전달된 JWT토큰값을 웹브라우저 환경에 저장한다.
+						//저장방식은 Cookie(X)보다 storage(local,session)객체를 사용합니다.
+						//웹브라우저에 탑재된 HTML5의 Storage객체는 웹브라우저에 
+						//쿠키를 대신해 데이터를 저장할수 있는 클라이언트 HTML객체에요..
+
+						//localStorage.setItem("키값",JWT토큰값);
+						localStorage.setItem("userauthtoken",result.data);
+
+						location.href= "/main.html";
+
 					}else if(result.code == 400){
 
 						if(result.msg == "NotExistEmail"){
