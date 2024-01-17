@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+
+<body>
+    <h1>프론트엔드AJAX 파일업로드 샘플</h1>
+    <form>
+        파일선택: <input type="file" name="file" id="file"/>
+
+    </form>
+
+    <script src="/js/jquery-3.1.1.min.js"></script>
+
+
+    <script>
+
+        //사용자가 파일을 변경선택하면 발생하는 OnChange이벤트 처리 
+        $("#file").change(function(){
+        
+            //AJAX기법으로 프론트에드 폼데이터를 생성하고 전송하는방법 안내
+            //순수자바스크립트로 form안에 전송할 데이터를 생성할떄 사용하는 객체 
+            var data = new FormData();
+
+            //data.append("폼으로전송할 name값","폼데이터값-선택파일정보") 
+            //input type이 file타입인 모든 html요소값을 조회하고 그중 첫번쨰 file요소의 파일정보를 추출하여 저장한다.
+            data.append("file",$("input[name=file]")[0].files[0]);
+
+            //AJAX를 통해 백엔드 RESTful 업로드 API를 호출해서 파일을 업로드한다.
+            $.ajax({
+                data:data,
+                type:"POST",
+                url:"/api/article/uploadS3", ///api/article/upload  OR /api/article/uploadS3
+                cache: false,
+                contentType: false,
+                processData: false,
+                success:function(result){
+                    console.log("파일업로드 처리결과:",result);
+                }
+            });
+
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+//로그인 여부 체크 사용자 권한 세션 미들웨어 참조하기
+const {isLoggedIn,isNotLoggedIn} = require('./sessionMiddleware');
+
 //bcryptjs 단방향 암호화 패키지 참조하기
 const bcrypt = require('bcryptjs');
 
@@ -15,7 +18,7 @@ const { QueryTypes } = sequelize;
 기능: 관리자 계정 목록 조회 웹페이지 요청
 호출주소: http://localhost:3000/admin/list
  */
-router.get('/list', async(req, res, next)=> {
+router.get('/list',isLoggedIn, async(req, res, next)=> {
     var searchOption = {
         companyCode:"0",
         adminid:"",
@@ -45,7 +48,7 @@ router.get('/list', async(req, res, next)=> {
 기능: 관리자 계정 등록 처리 웹페이지 요청
 호출주소: http://localhost:3000/admin/create
  */
-router.get('/create', async(req, res, next)=> {
+router.get('/create',isLoggedIn, async(req, res, next)=> {
     res.render('admin/create.ejs');
 });
 
@@ -55,7 +58,7 @@ router.get('/create', async(req, res, next)=> {
 기능: 관리자 계정 등록처리 라우팅메소드
 호출주소: http://localhost:3000/admin/create
  */
-router.post('/create', async(req, res, next)=> {
+router.post('/create',isLoggedIn, async(req, res, next)=> {
 
     //step1: 관리자가 입력한 관리자 계정입력정보 수집하기
     var companyCode = req.body.companyCode;
@@ -109,7 +112,7 @@ router.post('/create', async(req, res, next)=> {
 기능: 관리자 계정 정보확인 및 수정처리 웹페이지 요청 
 호출주소: http://localhost:3000/admin/modify/1
  */
-router.get('/modify/:aid', async(req, res, next)=> {
+router.get('/modify/:aid',isLoggedIn, async(req, res, next)=> {
     var aid = req.params.aid;
     var admin = await db.Admin.findOne({where:{admin_member_id:aid}});
 

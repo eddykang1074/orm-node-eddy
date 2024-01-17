@@ -1,0 +1,156 @@
+
+            <!--우측 컨텐츠 상단 헤더 영역 -->
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>관리자 계정 조회</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/">Home</a> >
+                        </li>
+                        <li>
+                            <a>관리자계정목록</a> >
+                        </li>
+                        <li class="active">
+                            <strong>조회</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+
+
+            <!--우측 콘텐츠 영역 -->
+            <div class="wrapper wrapper-content">
+
+                <!-- 관리자 조회 옵션 입력 영역  -->
+                <form action="/admin/list" method="post" id="searchForm">
+                    <div class="ibox-content m-b-sm border-bottom">
+                        
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="OrderNo">소속회사</label>
+                                    <select name="companyCode" id="companyCode" class="form-control">
+                                        <option value="0" <% if( searchOption.companyCode == "0"){ %> selected <% } %> >전체</option>
+                                        <option value="1" <% if( searchOption.companyCode == "1"){ %> selected <% } %>>자회사</option>
+                                        <option value="2" <% if( searchOption.companyCode == "2"){ %> selected <% } %>>협력회사</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="OrderName">관리자아이디/성명</label>
+                                    <input type="text" name="adminid" value="<%=searchOption.adminid%>" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="MobileNo">사용여부</label>
+                                    <select name="usedYNCode" class="form-control">
+                                        <option value="9" <% if( searchOption.usedYNCode == "9"){ %> selected <% } %> >전체</option>
+                                        <option value="1" <% if( searchOption.usedYNCode == "1"){ %> selected <% } %> >게시함</option>
+                                        <option value="0" <% if( searchOption.usedYNCode == "0"){ %> selected <% } %> >게시안함</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary" value="조회" />
+                            <a href="/admin/create" class="btn btn-info">신규</a>
+                        </div>
+                    </div>
+                </form>
+
+
+                <!-- 게시글 조회결과 목록 표시영역  -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <div class="table-responsive">
+
+                                    <table class="footable table table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true"  data-sort-ignore="true" width="10%">고유번호</th>
+                                                <th width="10%">관리자아이디</th>
+                                                <th width="10%">관리자명</th>
+                                                <th data-hide="phone" width="10%">소속회사</th>
+                                                <th data-sort-ignore="true" data-hide="phone">메일주소</th>
+                                                <th data-sort-ignore="true" data-hide="phone" width="10%">전화번호</th>
+                                                <th data-sort-ignore="true" data-hide="phone,tablet" width="10%">부서명</th>
+                                                <th data-hide="phone" width="10%">사용상태</th>
+                                                <th data-hide="phone"  width="10%">수정일자</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody class="hoverTblBody">
+
+
+                                            <% for(var i =0;i<admins.length;i++){ %>
+                                               
+                                                <tr>
+                                                    <td><%=admins[i].admin_member_id%></td>
+                                                    <td><%=admins[i].admin_id%></td>
+                                                    <td><%=admins[i].admin_name%></td>
+                                                    <td>
+                                                        <% if(admins[i].company_code == 1){%>
+                                                            자회사
+                                                        <% } else{ %>
+                                                            협력회사
+                                                        <% }%>
+                                                    </td>
+                                                    
+                                                    <td><a href="/admin/modify/<%=admins[i].admin_member_id%>"><%=admins[i].email%></a></td>
+                                                    <td><%=admins[i].telephone%></td>
+                                                    <td><%=admins[i].dept_name%></td>
+                                                    
+                                                    <td>
+                                                        <% if(admins[i].used_yn_code == 1){%>
+                                                            사용함
+                                                        <% } else{ %>
+                                                            사용안함
+                                                        <% }%>
+                                                    </td>
+                                                    
+                                                    
+                                                    <td><%=admins[i].edit_date%></td>
+                                                </tr>
+
+                                           <% } %>
+                                           
+
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="9">
+                                                    <ul class="pagination pull-left"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+<script>
+    $(document).ready(function () {
+        $('.footable').footable();
+    });
+</script>
+
+
+
+
+
+
+

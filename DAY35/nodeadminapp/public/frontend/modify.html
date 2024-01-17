@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Main view</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!--추가 스타일-->
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!--좌측 메뉴 영역-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="block m-t-xs font-bold">Example user</span>
+                                <span class="text-muted text-xs block">menu <b class="caret"></b></span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            IN+
+                        </div>
+                    </li>
+                    <li class="active">
+                        <a href="login.html"><i class="fa fa-th-large"></i> <span class="nav-label">로그인</span></a>
+                    </li>
+                    <li>
+                        <a href="entry.html"><i class="fa fa-th-large"></i> <span class="nav-label">회원가입</span> </a>
+                    </li>
+                    <li>
+                        <a href="login.html"><i class="fa fa-th-large"></i> <span class="nav-label">게시글목록</span> </a>
+                    </li>
+                    <li>
+                        <a href="write.html"><i class="fa fa-th-large"></i> <span class="nav-label">게시글작성</span> </a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <!--우측 영역-->
+        <div id="page-wrapper" class="gray-bg">
+
+            <!--우측 상단 영역 -->
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" method="post" action="#">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." class="form-control"
+                                    name="top-search" id="top-search">
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+
+            <!--우측 콘텐츠 헤더영역 -->
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>게시글 확인 및 수정</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/">Home</a> >
+                        </li>
+                        <li>
+                            <a>게시글확인</a> >
+                        </li>
+                        <li class="active">
+                            <strong>수정/삭제</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+
+            <!--우측 콘텐츠 영역 -->
+            <form id="articleForm">
+                <div class="wrapper wrapper-content">
+                    <div class="ibox-content m-b-sm border-bottom">
+
+                        <!-- 게시판유형 -->
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">게시판</label>
+                                    <select name="boardTypeCode" id="boardTypeCode" class="form-control">
+                                        <option value="0">선택</option>
+                                        <option value="1">공지게시판</option>
+                                        <option value="2">기술블로깅</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <!-- 글제목영역 -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">글제목</label>
+                                    <input type="text" name="title" id="title" class="form-control" value="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 글내용 입력영역 -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">글내용</label>
+                                    <textarea class="form-control" name="contents" id="contents" rows="10" cols="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 게시글유형,게시여부,등록자 입력영역 -->
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">게시글유형</label>
+                                    <select name="articleTypeCode" id="articleTypeCode" class="form-control">
+                                        <option value="0">선택</option>
+                                        <option value="1">상단고정게시글</option>
+                                        <option value="2">일반게시글</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">게시여부</label>
+                                    <select name="isDisplayCode" id="isDisplayCode" class="form-control">
+                                        <option value="9">선택</option>
+                                        <option value="1">게시함</option>
+                                        <option value="0">게시안함</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">수정자명</label>
+                                    <input type="text" name="register" id="register" value=""   class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- 저장/목록이동 버튼  -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">수정</button>
+                            <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
+                            <a href="/article/list" class="btn btn-info">목록</a>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+            <!--우측 하단 풋터 영역-->
+            <div class="footer">
+                <div class="pull-right">
+                    10GB of <strong>250GB</strong> Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong> Example Company &copy; 2014-2018
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/js/inspinia.js"></script>
+    <script src="/js/plugins/pace/pace.min.js"></script>
+
+
+    <!--추가 스크립트-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+
+
+    <script>
+
+        //웹브라우저 클라이언트에서 URL내에 쿼리스트링으로 전달되는 키의 값을 추출해주는 프론트엔드 함수
+        //http://localhost:3000/frontend/modify.html?aid=1
+        function getQueryString(keyName){
+            //자바스크립트 정규식을 이용해 현재페이지 URL에서 전달받은 키값에 대한 쿼리스트링 값을 추출한다.
+            //모든 개발언어는 정규식을 지원합니다.
+            //정규식의 목적은 특정코딩 패턴을 통해서 원하는 결과값을 쉽고 빠르게 해결한다.  
+            var results = new RegExp('[\?&]'+keyName+'=([^&#]*)').exec(window.location.href);
+            console.log("====================>",results);
+            if(results != null){
+                return results[1] || 0;
+            }
+            return results;
+        }
+
+
+        //현재 수정 확인 웹페지의 게시글 고유번호 추출하고 전역변수로 저장한다.
+        var articleIdx = getQueryString("aid");
+        console.log("현재 게시글 고유번호 : ",articleIdx);
+
+
+        //서버에서 보내준 html웹페이지가 사용자 웹브라우저에
+        //모두 렌더링이 완료된 시점에 발생 $(document).ready();
+        $(document).ready(function(){
+
+            //확인/수정 웹페이지가 모두 웹브라우저(클라이언트)에 렌더링 완료되면 단일 게시글 정보 조회
+            $.get(`/api/article/${articleIdx}`,function(result){
+                console.log("조회된 단일 게시글 정보:",result);
+
+                //해당 UI요소별로 조회해온 단일게시글 정보 속성으로 데이터 바인딩처리: Presenter(MVP패턴)
+                if(result.code === 200){
+
+                    //RESTful 단일게시글 정보 데이터를 각각 UI요소에 바인딩 처리해준다.(수동으로 일일이....힘들어요....>...<)
+                    $("#boardTypeCode").val(result.data.board_type_code);
+                    $("#title").val(result.data.title);
+                    $("#articleTypeCode").val(result.data.article_type_code);
+                    $("#isDisplayCode").val(result.data.is_display_code);
+                    $("#register").val(result.data.reg_member_id);
+                    $("#contents").val(result.data.contents);
+      
+                    //마우스 포커스 첫 UI요소에 맞춰주기(사용자 편의 UX제공)
+                    $("#boardTypeCode").focus();    
+                }
+    
+            });
+        });
+
+
+        //form태그내 사용자가 입력한 데이터 유효성검사(Validation Check)함수 구현
+        $("#articleForm").submit(function(){
+
+            //게시판 유형값 선택여부 체크 
+            if($("#boardTypeCode").val() == "0"){
+                alert("게시판 유형을 선택해주세요.");
+                $("#boardTypeCode").focus();
+                return false;
+            }
+
+            //제목 입력요소 유효성 검사 
+            if($("#title").val() == ""){
+                alert("제목을 선택해주세요.");
+                $("#title").focus();
+                return false;
+            }
+
+            //게시글 유형코드 선택여부 체크 
+            if($("#articleTypeCode").val() == "0"){
+                alert("게시글 유형을 선택해주세요.");
+                $("#articleTypeCode").focus();
+                return false;
+            }
+
+            //게시여부 선택 체크 
+            if($("#isDisplayCode").val() == "9"){
+                alert("게시여부를 선택해주세요.");
+                $("#isDisplayCode").focus();
+                return false;
+            }
+
+            //작성자 입력여부 체크 
+            if($("#register").val() == ""){
+                alert("작성자명을 입력해주세요.");
+                $("#register").focus();
+                return false;
+            }
+
+
+            //수정 RESTful API에 전송할 사용자가 수정한 데이터 소스 구조 정의 및 데이터바인딩처리
+            var article = {
+                "articleIdx":articleIdx,
+                "boardTypeCode":$("#boardTypeCode").val(),
+                "title":$("#title").val(),
+                "contents":$("#contents").val(),
+                "articleTypeCode":$("#articleTypeCode").val(),
+                "isDisplayCode":$("#isDisplayCode").val(),
+                "register":$("#register").val()
+            };
+
+            //클라이언트(프론트엔드)에서 준비된 데이터소스를 서버의 RESTful API로 전송해 등록처리한다. 
+            //jQuery AJAX post메소드를 통해 서버로 데이터 전송처리 
+            $.post('/api/article/update',article).done(function(data){
+                console.log("백엔드 처리결과 값 확인하기: ",data);
+
+                if(data.code === 200){
+                    alert("수정완료");
+                    location.href="/frontend/list.html";
+                }else{
+                    alert("수정 에러 발생...관리자에게 문의하세용...");
+                }
+
+            });
+
+
+            return false;
+        });
+
+
+        //클라이언트(웹브라우저)에서 삭제버튼이 클릭되면 최종 삭제여부 확인 후 삭제 라우팅 메소드 호출하기 
+        $("#btnDelete").click(function(){
+
+            if(confirm("정말로 삭제하시겠습니까?")){
+                //사용자가 confirm창의 확인버튼을 누르면 true가 반환되기 떄문에..
+                //확인 버튼 클릭시 실행해야하는 기능 구현
+           
+                //Jquery로 AJAX기술을 사용하는 방법이 2가지 
+                //$.get(), $.post() 쇼컷방식으로 호출하거나 하기 공식적인 방식으로 호출하거나
+                //$.ajax();
+                $.ajax({
+                    method :'DELETE',
+                    url : `/api/article/${articleIdx}`
+                }).done(function(result){
+                    console.log("백엔드 API 삭제 처리결과:",result);
+                    alert("삭제완료");
+                    location.href="/frontend/list.html";
+                })
+                
+
+            }else{
+                alert("삭제를 취소했습니다.");
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>
