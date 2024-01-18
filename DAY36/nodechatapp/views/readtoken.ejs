@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>전달된 JWT토큰값 확인하기</title>
+    </head>
+    
+    <body>
+        <h1>전달된 JWT토큰값 확인하기</h1>
+        <form>
+            사용자 아이디:<input type="text" name="userid" value="<%=tokenJsonData.userid%>" /><br/>
+            메일주소:<input type="text" name="email" value="<%=tokenJsonData.email%>" /><br/>
+            사용자유형:<input type="text" name="usertype" value="<%=tokenJsonData.usertype%>" /><br/>
+            이름:<input type="text" name="name" value="<%=tokenJsonData.name%>" /><br/>
+            전화번호:<input type="text" name="telephone" value="<%=tokenJsonData.telephone%>" /><br/>
+            <hr>
+            전달된 JWT 토큰값: <%=token%>
+        </form>
+    </body>
+</html>

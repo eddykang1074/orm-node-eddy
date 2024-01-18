@@ -26,7 +26,7 @@ router.get('/',isLoggedIn, async(req, res, next)=> {
   //var admin_id = req.session.loginUser.admin_id; 
 
   //Case2: 패스포트 세션 기반 로그인 사용자 정보 추출하기 
-  var admin_id = req.session.passport.user.admin_id; 
+  //var admin_id = req.session.passport.user.admin_id; 
 
   res.render('index.ejs');
 });
@@ -155,6 +155,14 @@ router.get('/logout',isLoggedIn,async(req,res,next)=>{
     res.redirect('/login');
   });
 
+});
+
+
+//express-session기반 로그아웃 샘플
+router.get('/logout2',isLoggedIn,async(req,res,next)=>{
+  req.session.destory();  // 세션 삭제
+  res.clearCookie('sid'); // 세션 쿠키 삭제
+  res.redirect('/login');
 });
 
 

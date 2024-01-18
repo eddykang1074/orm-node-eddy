@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JWT토큰 생성하기</title>
+    </head>
+    
+    <body>
+        <h1>우리가 원하는 JWT토큰을 만들어볼까요?</h1>
+        <form action="/maketoken" method="post">
+            사용자 아이디:<input type="text" name="userid" /><br/>
+            메일주소:<input type="text" name="email" /><br/>
+            사용자유형:<input type="text" name="usertype" /><br/>
+            이름:<input type="text" name="name" /><br/>
+            전화번호:<input type="text" name="telephone" /><br/>
+            <button type="submit">토큰생성하기</button>
+            <hr>
+            생성된토큰값: <%=token%>
+        </form>
+    </body>
+</html>
