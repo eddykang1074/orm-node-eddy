@@ -10,6 +10,10 @@ var db = require('../models/index.js');
 //사용자 토큰제공여부 체크 미들웨어 참조하기
 var {tokenAuthChecking} = require('./apiMiddleware.js');
 
+//각종 열거형 상수 참조하기-코드성 데이터 
+var constants = require('../common/enum.js');
+
+
 
 /* 
 -신규회원 가입처리 RESTFul API 라우팅 메소드 
@@ -204,6 +208,40 @@ router.get('/profile',tokenAuthChecking,async(req,res,next)=>{
 
   res.json(apiResult);
 
+});
+
+
+/* 
+-전체 회원 목록 조회 API  
+-http://localhost:3000/api/member/all
+-로그인시 발급한 JWT토큰은 HTTP Header영역에 포함되어 전달된다.
+*/
+router.get('/all',tokenAuthChecking,async(req,res)=>{
+
+  var apiResult = {
+    code:400,
+    data:null,
+    msg:""
+  };
+
+  try{
+
+    var members = await db.Member.findAll({
+      attributes:['member_id','email','name','profile_img_path','telephone'],
+      where:{use_state_code:constants.USE_STATE_CODE_USED}
+    });
+
+    apiResult.code = 200;
+    apiResult.data = members;
+    apiResult.msg = "Ok";
+
+  }catch(err){
+    apiResult.code = 500;
+    apiResult.data = null;
+    apiResult.msg = "Failed";
+  }
+
+  res.json(apiResult);
 });
 
 
