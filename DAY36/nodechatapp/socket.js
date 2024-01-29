@@ -3,6 +3,9 @@ const SocketIO = require("socket.io");
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 
+//socket.io-redis참조
+var redis = require("socket.io-redis");
+
 
 //DB객체 참조하기 
 var db = require('./models/index');
@@ -17,6 +20,17 @@ module.exports =(server)=>{
             methods: ["GET", "POST"],
         },
     });
+
+
+    //Redis Backplain 연결설정
+    //env파일에 넣어서 관리하세요..
+    io.adapter(
+        redis({
+            host:process.env.REDIS_HOST,
+            port:process.env.REDIS_PORT
+        })
+    );
+
 
 
     io.on("connection",async(socket)=>{

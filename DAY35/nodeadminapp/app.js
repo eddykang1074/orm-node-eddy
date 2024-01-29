@@ -22,10 +22,9 @@ let RedisStore = require("connect-redis")(session);
 
 //세션 저장을 위한 레디스 서버 연결정보 설정하기 
 let redisClient = redis.createClient({
-  host: "127.0.0.1",
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
   db: 0,
-  password: "eddy524640!",
 });
 
 

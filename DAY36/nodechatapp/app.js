@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+var debug = require('debug');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -7,6 +8,11 @@ var logger = require('morgan');
 //환경설정파일 호출하기: 전역정보로 설정됩니다.
 //호출위치는 반드시 app.js내 최상위에서 호출할것..
 require('dotenv').config();
+
+var debug = require('debug');
+
+//웹소켓 모듈추가
+const webSocket = require('./socket');
 
 //CORS 접근 이슈 해결을 위한 cors패키지 참조 
 const cors = require("cors");
@@ -94,4 +100,57 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+
+//어플리케이션 웹사이트 포트설정
+app.set('port', process.env.PORT || 3000);
+
+//웹어플리케이션 웹사이트 오픈 
+var server = app.listen(app.get('port'), function () {
+    debug('Express server listening on port ' + server.address().port);
+});
+
+//에러 이벤트 처리기설정
+server.on('error', onError);
+
+//listening 이벤트 처리기 설정
+server.on('listening', onListening);
+
+
+//웹소켓 express서버와 연결처리
+webSocket(server);
+
+//전역에러처리기
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+//listening 이벤트 처리기
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+}
+
+
