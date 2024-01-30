@@ -1,5 +1,4 @@
 var createError = require('http-errors');
-var debug = require('debug');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -9,7 +8,7 @@ var logger = require('morgan');
 //호출위치는 반드시 app.js내 최상위에서 호출할것..
 require('dotenv').config();
 
-var debug = require('debug');
+
 
 //웹소켓 모듈추가
 const webSocket = require('./socket');
@@ -101,56 +100,58 @@ app.use(function(err, req, res, next) {
 });
 
 
-//어플리케이션 웹사이트 포트설정
+//노드앱의 기본 WAS 서비스 포트
 app.set('port', process.env.PORT || 3000);
 
-//웹어플리케이션 웹사이트 오픈 
-var server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
+//노드앱이 작동되는 서버 객체 생성 
+var server = app.listen(app.get('port'),function(){
+
 });
-
-//에러 이벤트 처리기설정
-server.on('error', onError);
-
-//listening 이벤트 처리기 설정
-server.on('listening', onListening);
 
 
 //웹소켓 express서버와 연결처리
+//webSocket모듈에 nodeapp이 실행되는 서버객체를 전달합니다.
+//socket.io 소켓모듈과 node express앱을 통합해줍니다.
 webSocket(server);
 
-//전역에러처리기
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+
 function onError(error) {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
 
-    var bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port;
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
 
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
-            throw error;
-    }
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
 }
 
-//listening 이벤트 처리기
 function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
-        ? 'pipe ' + addr
-        : 'port ' + addr.port;
-    debug('Listening on ' + bind);
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
 }
+
+
+
+
 
 
